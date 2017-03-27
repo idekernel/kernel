@@ -72,18 +72,18 @@ RUN cd /tmp && \
 #RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
 #install notebook
-RUN cd notebook
+WORKDIR /notebook
 RUN pip install -e .
 #install client
-RUN cd ../jupyter_client
+WORKDIR /jupyter_client
 RUN pip install -e .
 #install ipykernel
-RUN cd ../ipykernel
+WORKDIR /ipykernel
 RUN pip install -e .
 #install kernelgateway
-RUN cd ../kernel_gateway
+WORKDIR /kernel_gateway
 RUN pip install -e .
-RUN cd ../
+WORKDIR /
 
 USER root
 
