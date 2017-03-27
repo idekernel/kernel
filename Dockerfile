@@ -68,6 +68,21 @@ RUN cd /tmp && \
     conda clean -tipsy
 
 # Install Jupyter notebook client ipykernel kernelgateway
+# update pip setuptools
+RUN pip install --upgrade setuptools pip
+#install notebook
+RUN cd notebook
+RUN pip install -e .
+#install client
+RUN cd ../jupyter_client
+RUN pip install -e .
+#install ipykernel
+RUN cd ../ipykernel
+RUN pip install -e .
+#install kernelgateway
+RUN cd ../kernel_gateway
+RUN pip install -e .
+RUN cd ../
 
 USER root
 
