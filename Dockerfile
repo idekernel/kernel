@@ -9,6 +9,10 @@ MAINTAINER idekernel Project
 
 USER root
 
+#copy everything
+RUN mkdir -p /srv/kernel
+COPY . /srv/kernel
+
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
@@ -71,9 +75,6 @@ RUN cd /tmp && \
 # update pip setuptools
 #RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
-#copy everything
-RUN mkdir -p /srv/kernel
-COPY . /srv/kernel
 WORKDIR /srv/kernel
 #install notebook
 RUN python ./notebook/setup.py install
