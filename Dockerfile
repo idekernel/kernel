@@ -67,7 +67,7 @@ RUN cd /tmp && \
     $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
     conda clean -tipsy
 
-# Install Jupyter notebook kernelgateway client ipykernel
+# Install Jupyter notebook client ipykernel kernelgateway
 
 USER root
 
@@ -81,7 +81,6 @@ CMD ["start-notebook.sh"]
 # Add local files as late as possible to avoid cache busting
 COPY start.sh /usr/local/bin/
 COPY start-notebook.sh /usr/local/bin/
-COPY start-singleuser.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /home/$NB_USER/.jupyter/
 RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter
 
