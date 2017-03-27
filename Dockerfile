@@ -69,7 +69,8 @@ RUN cd /tmp && \
 
 # Install Jupyter notebook client ipykernel kernelgateway
 # update pip setuptools
-RUN pip install --upgrade pip setuptools
+#RUN pip install --upgrade pip setuptools
+RUN conda update pip setuptools
 #install notebook
 RUN cd notebook
 RUN pip install -e .
