@@ -72,6 +72,10 @@ RUN cd /tmp && \
     conda clean -tipsy
 
 USER root
+#install npm
+RUN wget https://npmjs.org/install.sh --no-check-certificate
+RUN chmod 777 install.sh
+RUN ./install.sh
 # Install Jupyter notebook client ipykernel kernelgateway
 # update pip setuptools
 #RUN pip install --upgrade pip setuptools
