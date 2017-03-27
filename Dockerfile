@@ -75,15 +75,18 @@ RUN cd /tmp && \
 # update pip setuptools
 #RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
-WORKDIR /srv/kernel
+WORKDIR /srv/kernel/notebook
 #install notebook
-RUN python ./notebook/setup.py install
+RUN pip install -e .
 #install client
-RUN python ./jupyter_client/setup.py install
+WORKDIR /srv/kernel/jupyter_client
+RUN pip install -e .
 #install ipykernel
-RUN python ./ipykernel/setup.py install
+WORKDIR /srv/kernel/ipykernel
+RUN pip install -e .
 #install kernelgateway
-RUN python ./kernel_gateway/setup.py install
+WORKDIR /srv/kernel/kernel_gateway
+RUN pip install -e .
 
 USER root
 
