@@ -72,7 +72,16 @@ RUN cd /tmp && \
     conda clean -tipsy
 
 USER root
+#install nodejs
+RUN wget --quiet https://nodejs.org/dist/v6.10.1/node-v6.10.1-linux-x64.tar.xz
+RUN xz -d node-v6.10.1-linux-x64.tar.xz
+RUN tar -xvf node-v6.10.1-linux-x64.tar
+RUN cd node-v6.10.1-linux-x64
+RUN ./configure
+RUN make
+RUN make install
 #install npm
+RUN cd ../
 RUN wget https://npmjs.org/install.sh --no-check-certificate
 RUN chmod 777 install.sh
 RUN ./install.sh
@@ -80,18 +89,18 @@ RUN ./install.sh
 # update pip setuptools
 #RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
-WORKDIR /srv/kernel/notebook
-#install notebookRUN 
+RUN cd /srv/kernel/notebook
+#install notebook
 RUN npm install
 RUN pip install -e .
 #install client
-WORKDIR /srv/kernel/jupyter_client
+RUN cd /srv/kernel/jupyter_client
 RUN pip install -e .
 #install ipykernel
-WORKDIR /srv/kernel/ipykernel
+RUN cd /srv/kernel/ipykernel
 RUN pip install -e .
 #install kernelgateway
-WORKDIR /srv/kernel/kernel_gateway
+RUN cd /srv/kernel/kernel_gateway
 RUN pip install -e .
 
 WORKDIR /home/$NB_USER/work
