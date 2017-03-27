@@ -71,19 +71,18 @@ RUN cd /tmp && \
 # update pip setuptools
 #RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
+#copy everything
+RUN mkdir -p /srv/kernel
+COPY . /srv/kernel
+WORKDIR /srv/kernel
 #install notebook
-#WORKDIR ./notebook
 RUN python ./notebook/setup.py install
 #install client
-#WORKDIR ./jupyter_client
 RUN python ./jupyter_client/setup.py install
 #install ipykernel
-#WORKDIR ./ipykernel
 RUN python ./ipykernel/setup.py install
 #install kernelgateway
-#WORKDIR ./kernel_gateway
 RUN python ./kernel_gateway/setup.py install
-WORKDIR /
 
 USER root
 
