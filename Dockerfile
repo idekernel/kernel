@@ -5,7 +5,7 @@
 # https://github.com/docker-library/official-images/commit/aa5973d0c918c70c035ec0746b8acaec3a4d7777
 FROM debian@sha256:52af198afd8c264f1035206ca66a5c48e602afb32dc912ebf9e9478134601ec4
 
-MAINTAINER Jupyter Project <jupyter@googlegroups.com>
+MAINTAINER idekernel Project
 
 USER root
 
@@ -73,21 +73,20 @@ RUN cd /tmp && \
 RUN conda update pip setuptools
 #install notebook
 WORKDIR /notebook
-RUN pip install -e .
+RUN python setup.py install
 #install client
 WORKDIR /jupyter_client
-RUN pip install -e .
+RUN python setup.py install
 #install ipykernel
 WORKDIR /ipykernel
-RUN pip install -e .
+RUN python setup.py install
 #install kernelgateway
 WORKDIR /kernel_gateway
-RUN pip install -e .
+RUN python setup.py install
 WORKDIR /
 
 USER root
 
-EXPOSE 8888
 WORKDIR /home/$NB_USER/work
 
 # Configure container startup
