@@ -74,8 +74,8 @@ RUN cd /tmp && \
 USER root
 #install nodejs
 RUN wget --quiet https://nodejs.org/dist/v6.10.1/node-v6.10.1.tar.gz
-RUN tar -xzvf node-v6.10.1-linux-x64.tar.gz
-RUN cd node-v6.10.1-linux-x64
+RUN tar -xzvf node-v6.10.1.tar.gz
+RUN cd node-v6.10.1
 RUN ./configure
 RUN make
 RUN make install
