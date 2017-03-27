@@ -71,6 +71,7 @@ RUN cd /tmp && \
     $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
     conda clean -tipsy
 
+USER root
 # Install Jupyter notebook client ipykernel kernelgateway
 # update pip setuptools
 #RUN pip install --upgrade pip setuptools
@@ -87,8 +88,6 @@ RUN pip install -e .
 #install kernelgateway
 WORKDIR /srv/kernel/kernel_gateway
 RUN pip install -e .
-
-USER root
 
 WORKDIR /home/$NB_USER/work
 
