@@ -77,7 +77,8 @@ USER root
 #RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
 WORKDIR /srv/kernel/notebook
-#install notebook
+#install notebookRUN 
+RUN npm install
 RUN pip install -e .
 #install client
 WORKDIR /srv/kernel/jupyter_client
