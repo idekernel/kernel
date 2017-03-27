@@ -72,17 +72,17 @@ RUN cd /tmp && \
 #RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
 #install notebook
-WORKDIR ./notebook
-RUN python setup.py install
+#WORKDIR ./notebook
+RUN python ./notebook/setup.py install
 #install client
-WORKDIR ./jupyter_client
-RUN python setup.py install
+#WORKDIR ./jupyter_client
+RUN python ./jupyter_client/setup.py install
 #install ipykernel
-WORKDIR ./ipykernel
-RUN python setup.py install
+#WORKDIR ./ipykernel
+RUN python ./ipykernel/setup.py install
 #install kernelgateway
-WORKDIR ./kernel_gateway
-RUN python setup.py install
+#WORKDIR ./kernel_gateway
+RUN python ./kernel_gateway/setup.py install
 WORKDIR /
 
 USER root
