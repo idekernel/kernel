@@ -74,20 +74,24 @@ RUN cd /tmp && \
 
 USER root
 #install nodejs
-#RUN cd /home/$NB_USER/work
+RUN cd /home/$NB_USER/work
+RUN git clone https://github.com/joyent/node.git
+RUN cd node
+RUN ./configure
+RUN make
+RUN make install
 #RUN wget --quiet https://nodejs.org/dist/v6.10.1/node-v6.10.1-linux-x64.tar.xz
 #RUN xz -d node-v6.10.1-linux-x64.tar.xz
 #RUN tar -xvf node-v6.10.1-linux-x64.tar
 #RUN ln -s /home/$NB_USER/work/node-v6.10.1-linux-x64/bin/npm /usr/local/bin/npm
 #RUN ln -s /home/$NB_USER/work/node-v6.10.1-linux-x64/bin/node /usr/local/bin/node
 #install npm
-#RUN cd ../
-#RUN wget https://npmjs.org/install.sh --no-check-certificate
-#RUN chmod 777 install.sh
-#RUN ./install.sh
+RUN cd /home/$NB_USER/work
+RUN wget https://npmjs.org/install.sh --no-check-certificate
+RUN chmod 777 install.sh
+RUN ./install.sh
 # Install Jupyter notebook client ipykernel kernelgateway
 # update pip setuptools
-#RUN pip install --upgrade pip setuptools
 RUN conda update pip setuptools
 RUN cd /srv/kernel/notebook
 #install notebook
