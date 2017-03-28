@@ -48,6 +48,7 @@ ENV HOME /home/$NB_USER
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
+ENV NODE_VERSION 7.7.4
 
 # Create jovyan user with UID=1000 and in the 'users' group
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
@@ -74,23 +75,30 @@ RUN cd /tmp && \
 
 USER root
 #install nodejs
-RUN cd /home/$NB_USER/work
-RUN git clone https://github.com/nodejs/node.git
-RUN cd node
-RUN ls -l
-RUN ./configure
-RUN make
-RUN make install
+RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
+  && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+  && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
+  && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
+  && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
+  && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
+  
+# RUN cd /home/$NB_USER/work
+# RUN git clone https://github.com/nodejs/node.git
+# RUN cd node
+# RUN ls -l
+# RUN ./configure
+# RUN make
+# RUN make install
 #RUN wget --quiet https://nodejs.org/dist/v6.10.1/node-v6.10.1-linux-x64.tar.xz
 #RUN xz -d node-v6.10.1-linux-x64.tar.xz
 #RUN tar -xvf node-v6.10.1-linux-x64.tar
 #RUN ln -s /home/$NB_USER/work/node-v6.10.1-linux-x64/bin/npm /usr/local/bin/npm
 #RUN ln -s /home/$NB_USER/work/node-v6.10.1-linux-x64/bin/node /usr/local/bin/node
 #install npm
-RUN cd /home/$NB_USER/work
-RUN wget https://npmjs.org/install.sh --no-check-certificate
-RUN chmod 777 install.sh
-RUN ./install.sh
+# RUN cd /home/$NB_USER/work
+# RUN wget https://npmjs.org/install.sh --no-check-certificate
+# RUN chmod 777 install.sh
+# RUN ./install.sh
 # Install Jupyter notebook client ipykernel kernelgateway
 # update pip setuptools
 RUN conda update pip setuptools
