@@ -129,6 +129,7 @@ COPY start.sh /usr/local/bin/
 COPY start-notebook.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /home/$NB_USER/.jupyter/
 RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter
+RUN chown -R $NB_USER:users /home/$NB_USER/.local
 
 # Switch back to jovyan to avoid accidental container runs as root
 WORKDIR /home/$NB_USER
