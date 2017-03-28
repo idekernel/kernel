@@ -90,7 +90,7 @@ RUN ln -s /home/$NB_USER/work/node-v6.10.1-linux-x64/bin/node /usr/local/bin/nod
 RUN conda update pip setuptools
 RUN cd /srv/kernel/notebook
 #install notebook
-RUN npm install
+RUN /usr/local/bin/npm install
 RUN pip install -e .
 #install client
 RUN cd /srv/kernel/jupyter_client
