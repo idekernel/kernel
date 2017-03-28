@@ -25,8 +25,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
     ca-certificates \
     sudo \
     locales \
-    nodej \
-    npm \
+    git \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
