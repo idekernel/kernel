@@ -74,13 +74,11 @@ RUN cd /tmp && \
     conda clean -tipsy
 
 USER root
+WORKDIR /home/$NB_USER/work
 #install nodejs
 RUN wget --quiet "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
-  && wget --quiet "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-  && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
-  && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
   && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
-  && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
+  && rm "node-v$NODE_VERSION-linux-x64.tar.xz"
   
 # RUN cd /home/$NB_USER/work
 # RUN git clone https://github.com/nodejs/node.git
