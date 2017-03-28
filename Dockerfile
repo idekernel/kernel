@@ -118,7 +118,7 @@ RUN cd /srv/kernel/kernel_gateway \
   && npm install \
   && pip install -e .
 
-WORKDIR /home/$NB_USER/work
+WORKDIR /srv/kernel
 
 # Configure container startup
 ENTRYPOINT ["tini", "--"]
@@ -128,7 +128,8 @@ ENTRYPOINT ["tini", "--"]
 COPY start.sh /usr/local/bin/
 COPY start-notebook.sh /usr/local/bin/
 COPY jupyter_notebook_config.py /home/$NB_USER/.jupyter/
-RUN chown -RX $NB_USER:users /home/$NB_USER/.jupyter
+RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter
 
 # Switch back to jovyan to avoid accidental container runs as root
+WORKDIR /home/$NB_USER
 USER $NB_USER
