@@ -75,7 +75,7 @@ RUN cd /tmp && \
 USER root
 #install nodejs
 RUN cd /home/$NB_USER/work
-RUN git clone https://github.com/joyent/node.git
+RUN git clone https://github.com/nodejs/node.git
 RUN cd node
 RUN ./configure
 RUN make
