@@ -25,6 +25,8 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
     ca-certificates \
     sudo \
     locales \
+    nodej \
+    npm \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -73,8 +75,6 @@ RUN cd /tmp && \
 
 USER root
 #install nodejs
-RUN apt-get install nodejs
-RUN apt-get install npm
 #RUN cd /home/$NB_USER/work
 #RUN wget --quiet https://nodejs.org/dist/v6.10.1/node-v6.10.1-linux-x64.tar.xz
 #RUN xz -d node-v6.10.1-linux-x64.tar.xz
