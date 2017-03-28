@@ -75,8 +75,8 @@ RUN cd /tmp && \
 
 USER root
 #install nodejs
-RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
-  && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+RUN wget --quiet "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
+  && wget --quiet "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
   && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
   && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
   && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
@@ -84,7 +84,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   
 # RUN cd /home/$NB_USER/work
 # RUN git clone https://github.com/nodejs/node.git
-# RUN cd node
+# RUN cd ./node
 # RUN ls -l
 # RUN ./configure
 # RUN make
@@ -102,19 +102,23 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 # Install Jupyter notebook client ipykernel kernelgateway
 # update pip setuptools
 RUN conda update pip setuptools
-RUN cd /srv/kernel/notebook
+
 #install notebook
-RUN /usr/local/bin/npm install
-RUN pip install -e .
+RUN cd /srv/kernel/notebook \
+  && npm install \
+  && pip install -e .
 #install client
-RUN cd /srv/kernel/jupyter_client
-RUN pip install -e .
+RUN cd /srv/kernel/jupyter_client \
+  && npm install \
+  && pip install -e .
 #install ipykernel
-RUN cd /srv/kernel/ipykernel
-RUN pip install -e .
+RUN cd /srv/kernel/ipykernel \
+  && npm install \
+  && pip install -e .
 #install kernelgateway
-RUN cd /srv/kernel/kernel_gateway
-RUN pip install -e .
+RUN cd /srv/kernel/kernel_gateway \
+  && npm install \
+  && pip install -e .
 
 WORKDIR /home/$NB_USER/work
 
