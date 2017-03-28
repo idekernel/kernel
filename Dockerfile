@@ -77,9 +77,8 @@ RUN cd /home/$NB_USER/work
 RUN wget --quiet https://nodejs.org/dist/v6.10.1/node-v6.10.1-linux-x64.tar.xz
 RUN xz -d node-v6.10.1-linux-x64.tar.xz
 RUN tar -xvf node-v6.10.1-linux-x64.tar
-RUN cd node-v6.10.1-linux-x64
-RUN ln -s bin/npm /usr/local/bin/npm
-RUN ln -s bin/node /usr/local/bin/node
+RUN ln -s /home/$NB_USER/work/node-v6.10.1-linux-x64/bin/npm /usr/local/bin/npm
+RUN ln -s /home/$NB_USER/work/node-v6.10.1-linux-x64/bin/node /usr/local/bin/node
 #install npm
 #RUN cd ../
 #RUN wget https://npmjs.org/install.sh --no-check-certificate
