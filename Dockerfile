@@ -77,6 +77,7 @@ USER root
 RUN cd /home/$NB_USER/work
 RUN git clone https://github.com/nodejs/node.git
 RUN cd node
+RUN ls -l
 RUN ./configure
 RUN make
 RUN make install
