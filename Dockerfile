@@ -117,11 +117,15 @@ RUN cd /srv/kernel/ipykernel \
 RUN cd /srv/kernel/kernel_gateway \
   && npm install \
   && pip install -e .
+  
+  
+EXPOSE 8888
+CMD ["jupyter", "kernelgateway", "--KernelGatewayApp.ip=0.0.0.0", "--KernelGatewayApp.port=8888"]
 
 WORKDIR /srv/kernel
 
 # Configure container startup
-ENTRYPOINT ["tini", "--"]
+#ENTRYPOINT ["tini", "--"]
 #CMD ["start-notebook.sh"]
 
 # Add local files as late as possible to avoid cache busting
