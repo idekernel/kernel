@@ -120,13 +120,12 @@ RUN cd /srv/kernel/kernel_gateway \
   
   
 EXPOSE 8888
-CMD ["jupyter", "kernelgateway", "--KernelGatewayApp.ip=0.0.0.0", "--KernelGatewayApp.port=8888"]
 
 WORKDIR /srv/kernel
 
 # Configure container startup
-#ENTRYPOINT ["tini", "--"]
-#CMD ["start-notebook.sh"]
+ENTRYPOINT ["tini", "--"]
+CMD ["jupyter", "kernelgateway", "--KernelGatewayApp.ip=0.0.0.0", "--KernelGatewayApp.port=8888"]
 
 # Add local files as late as possible to avoid cache busting
 COPY start.sh /usr/local/bin/
