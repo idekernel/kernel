@@ -29,6 +29,7 @@ from tornado import web
 from tornado.log import enable_pretty_logging
 
 from notebook.notebookapp import random_ports
+from notebook.base.handlers import RedirectWithParams
 from ._version import __version__
 from .services.sessions.sessionmanager import SessionManager
 from .services.activity.manager import ActivityManager
@@ -411,6 +412,14 @@ class KernelGatewayApp(JupyterApp):
         logging.getLogger().setLevel(self.log_level)
 
         handlers = self.personality.create_request_handlers()
+        
+        # set the URL that will be redirected from `/`
+        handlers.append(
+            (r'/?', RedirectWithParams, {
+                'url' : self.base_url,
+                'permanent': False, # want 302, not 301
+            })
+        )
 
         self.web_app = web.Application(
             handlers=handlers,
