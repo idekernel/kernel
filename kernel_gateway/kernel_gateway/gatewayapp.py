@@ -412,13 +412,6 @@ class KernelGatewayApp(JupyterApp):
 
         handlers = self.personality.create_request_handlers()
         
-        # set the URL that will be redirected from `/`
-        handlers.append(
-            (r'/?', RedirectWithParams, {
-                'url' : self.base_url,
-                'permanent': False, # want 302, not 301
-            })
-        )
 
         self.web_app = web.Application(
             handlers=handlers,
