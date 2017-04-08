@@ -139,37 +139,15 @@ RUN chown -R $NB_USER:users /home/$NB_USER/.local
 WORKDIR /home/$NB_USER
 USER $NB_USER
 
-# Install Python 3 packages
-# Remove pyqt and qt pulled in for matplotlib since we're only ever going to
-# use notebook-friendly backends in these images
-RUN conda install --quiet --yes \
-    'ipywidgets=6.0*' \
-    'matplotlib=2.0*' && \
-    conda remove --quiet --yes --force qt pyqt && \
-    conda clean -tipsy
-
-# Activate ipywidgets extension in the environment that runs the notebook server
-RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix
-
 # Install Python 2 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
 RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
-    'ipywidgets=6.0*' \
-    'matplotlib=2.0*' && \
     conda remove -n python2 --quiet --yes --force qt pyqt && \
     conda clean -tipsy
 # Add shortcuts to distinguish pip for python2 and python3 envs
 RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2 && \
     ln -s $CONDA_DIR/bin/pip $CONDA_DIR/bin/pip3
-
-# Import matplotlib the first time to build the font cache.
-ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
-RUN MPLBACKEND=Agg $CONDA_DIR/envs/python2/bin/python -c "import matplotlib.pyplot"
-
-# Configure ipython kernel to use matplotlib inline backend by default
-RUN mkdir -p $HOME/.ipython/profile_default/startup
-COPY mplimporthook.py $HOME/.ipython/profile_default/startup/
 
 USER root
 
