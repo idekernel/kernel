@@ -20,7 +20,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
  && echo "deb $REPO/debian jessie main\ndeb $REPO/debian-security jessie/updates main" > /etc/apt/sources.list \
  && apt-get update && apt-get -yq dist-upgrade \
  && apt-get install -yq --no-install-recommends \
- && apt-get install -y --no-install-recommends libav-tools && \
+    libav-tools \
     wget \
     bzip2 \
     ca-certificates \
