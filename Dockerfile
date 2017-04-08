@@ -155,6 +155,9 @@ USER root
 # switching at runtime and to allow the notebook server running out of the root
 # environment to find it. Also, activate the python2 environment upon kernel
 # launch.
-RUN $CONDA_DIR/envs/python2/bin/python -m ipykernel install
+RUN pip install kernda --no-cache && \
+    $CONDA_DIR/envs/python2/bin/python -m ipykernel install && \
+    kernda -o -y /usr/local/share/jupyter/kernels/python2/kernel.json && \
+    pip uninstall kernda -y
 
 USER $NB_USER
