@@ -73,7 +73,8 @@ RUN cd /tmp && \
     $CONDA_DIR/bin/conda config --system --add channels conda-forge && \
     $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
     conda clean -tipsy
-
+    
+USER root
 WORKDIR /home/$NB_USER/work
 #install nodejs
 RUN wget --quiet "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
