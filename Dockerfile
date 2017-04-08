@@ -142,9 +142,8 @@ USER $NB_USER
 # Install Python 2 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
-RUN conda create -n ipykernel_py2 python=2.7 ipykernel && \
-    source activate ipykernel_py2 && \    
-    python -m ipykernel install --user
+RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
+    'ipykernel'
 
 # Add shortcuts to distinguish pip for python2 and python3 envs
 RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2 && \
