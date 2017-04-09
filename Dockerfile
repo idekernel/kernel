@@ -27,6 +27,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org \
     sudo \
     locales \
     git \
+    vim \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -122,7 +123,6 @@ RUN cd /srv/kernel/kernel_gateway \
   
 EXPOSE 8888
 
-WORKDIR /srv/kernel
 
 # Configure container startup
 ENTRYPOINT ["tini", "--"]
@@ -135,21 +135,18 @@ COPY jupyter_notebook_config.py /home/$NB_USER/.jupyter/
 RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter
 RUN chown -R $NB_USER:users /home/$NB_USER/.local
 
-# Switch back to jovyan to avoid accidental container runs as root
-WORKDIR /home/$NB_USER
-USER $NB_USER
+
+
+USER root
 
 # Install Python 2 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
 RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
-    'ipykernel'
+    ipykernel
 
 # Add shortcuts to distinguish pip for python2 and python3 envs
-RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2 && \
-    ln -s $CONDA_DIR/bin/pip $CONDA_DIR/bin/pip3
-
-USER root
+RUN ln -s $CONDA_DIR/envs/python2/bin/pip $CONDA_DIR/bin/pip2
 
 # Install Python 2 kernel spec globally to avoid permission problems when NB_UID
 # switching at runtime and to allow the notebook server running out of the root
@@ -159,5 +156,8 @@ RUN pip install kernda --no-cache && \
     $CONDA_DIR/envs/python2/bin/python -m ipykernel install && \
     kernda -o -y /usr/local/share/jupyter/kernels/python2/kernel.json && \
     pip uninstall kernda -y
+    
+# Switch back to jovyan to avoid accidental container runs as root
+WORKDIR /home/$NB_USER    
 
 USER $NB_USER
